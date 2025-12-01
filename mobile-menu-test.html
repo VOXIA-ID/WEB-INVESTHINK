@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Test - INVESTHINK</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive-enhanced.css">
+    <link rel="stylesheet" href="mobile-menu-fix.css">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        
+        .test-header h1 {
+            margin-bottom: 10px;
+            color: #3B82F6;
+        }
+        
+        .test-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .info-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        
+        .info-card h3 {
+            margin-bottom: 10px;
+            color: #3B82F6;
+        }
+        
+        .info-card p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .info-card .value {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        .controls {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+        }
+        
+        .controls h3 {
+            margin-bottom: 15px;
+            color: #3B82F6;
+        }
+        
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: #2563EB;
+        }
+        
+        .control-btn.secondary {
+            background: #666;
+        }
+        
+        .control-btn.secondary:hover {
+            background: #555;
+        }
+        
+        .viewport-sizer {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+        }
+        
+        .viewport-sizer h3 {
+            margin-bottom: 15px;
+            color: #3B82F6;
+        }
+        
+        .size-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .size-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+        
+        .size-btn:hover {
+            background: #555;
+        }
+        
+        .size-btn.active {
+            background: #3B82F6;
+        }
+        
+        .custom-size {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .custom-size input {
+            background: #333;
+            border: 1px solid #555;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            width: 80px;
+        }
+        
+        .website-frame {
+            border: 2px solid #3B82F6;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+            background: #000;
+        }
+        
+        .website-frame iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        .debug-panel {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 300px;
+            z-index: 10000;
+        }
+        
+        .debug-panel h3 {
+            margin-bottom: 15px;
+            color: #3B82F6;
+        }
+        
+        .debug-info {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        .debug-info .label {
+            color: #888;
+        }
+        
+        .debug-info .value {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .status-indicator.success {
+            background: #10b981;
+        }
+        
+        .status-indicator.error {
+            background: #ef4444;
+        }
+        
+        .status-indicator.warning {
+            background: #f59e0b;
+        }
+        
+        @media (max-width: 768px) {
+            .test-container {
+                padding: 10px;
+            }
+            
+            .debug-panel {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
+            
+            .website-frame iframe {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>📱 Mobile Menu Testing Tool</h1>
+            <p>Test the INVESTHINK mobile menu across different screen sizes</p>
+        </div>
+        
+        <div class="test-info">
+            <div class="info-card">
+                <h3>📐 Current Viewport</h3>
+                <p>Width: <span class="value" id="viewport-width">-</span>px</p>
+                <p>Height: <span class="value" id="viewport-height">-</span>px</p>
+                <p>Device: <span class="value" id="device-type">-</span></p>
+            </div>
+            
+            <div class="info-card">
+                <h3>📱 Mobile Menu Status</h3>
+                <p>Toggle Button: <span class="value" id="toggle-status">-</span></p>
+                <p>Menu Panel: <span class="value" id="menu-status">-</span></p>
+                <p>Overlay: <span class="value" id="overlay-status">-</span></p>
+            </div>
+            
+            <div class="info-card">
+                <h3>🔧 Debug Info</h3>
+                <p>Breakpoint: <span class="value" id="breakpoint">-</span></p>
+                <p>Touch Device: <span class="value" id="touch-device">-</span></p>
+                <p>Orientation: <span class="value" id="orientation">-</span></p>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <h3>🎮 Manual Controls</h3>
+            <div class="control-buttons">
+                <button class="control-btn" onclick="toggleMobileMenu()">Toggle Menu</button>
+                <button class="control-btn" onclick="openMobileMenu()">Open Menu</button>
+                <button class="control-btn" onclick="closeMobileMenu()">Close Menu</button>
+                <button class="control-btn secondary" onclick="refreshPage()">Refresh Page</button>
+                <button class="control-btn secondary" onclick="toggleDebugMode()">Toggle Debug Mode</button>
+            </div>
+        </div>
+        
+        <div class="viewport-sizer">
+            <h3>📏 Viewport Sizer</h3>
+            <div class="size-buttons">
+                <button class="size-btn" onclick="setViewportSize(320, 568)">iPhone SE</button>
+                <button class="size-btn" onclick="setViewportSize(375, 667)">iPhone 8</button>
+                <button class="size-btn" onclick="setViewportSize(390, 844)">iPhone 12</button>
+                <button class="size-btn" onclick="setViewportSize(428, 926)">iPhone 12 Pro Max</button>
+                <button class="size-btn" onclick="setViewportSize(768, 1024)">iPad</button>
+                <button class="size-btn" onclick="setViewportSize(1024, 768)">iPad Landscape</button>
+                <button class="size-btn" onclick="setViewportSize(1920, 1080)">Desktop</button>
+                <button class="size-btn active" onclick="resetViewport()">Full Size</button>
+            </div>
+            <div class="custom-size">
+                <label>Custom:</label>
+                <input type="number" id="custom-width" placeholder="Width" value="375">
+                <span>×</span>
+                <input type="number" id="custom-height" placeholder="Height" value="667">
+                <button class="control-btn" onclick="setCustomViewport()">Apply</button>
+            </div>
+        </div>
+        
+        <div class="website-frame" id="website-frame">
+            <iframe src="index.html" id="test-iframe"></iframe>
+        </div>
+    </div>
+    
+    <div class="debug-panel">
+        <h3>🔍 Live Debug</h3>
+        <div class="debug-info">
+            <p><span class="status-indicator" id="status-indicator"></span><span id="status-text">Initializing...</span></p>
+            <p>Window Width: <span class="value" id="window-width">-</span></p>
+            <p>Window Height: <span class="value" id="window-height">-</span></p>
+            <p>Scroll X: <span class="value" id="scroll-x">-</span></p>
+            <p>Scroll Y: <span class="value" id="scroll-y">-</span></p>
+            <p>User Agent: <span class="value" id="user-agent" style="font-size: 10px;">-</span></p>
+        </div>
+    </div>
+    
+    <script>
+        let debugMode = false;
+        let currentSize = null;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDebugInfo();
+            setupEventListeners();
+            checkMobileMenuStatus();
+            
+            console.log('🧪 Mobile Menu Test Tool Initialized');
+        });
+        
+        function updateDebugInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            // Update viewport info
+            document.getElementById('viewport-width').textContent = width;
+            document.getElementById('viewport-height').textContent = height;
+            document.getElementById('window-width').textContent = width;
+            document.getElementById('window-height').textContent = height;
+            
+            // Update device type
+            let deviceType = 'Desktop';
+            if (width <= 480) deviceType = 'Small Mobile';
+            else if (width <= 768) deviceType = 'Mobile';
+            else if (width <= 1024) deviceType = 'Tablet';
+            
+            document.getElementById('device-type').textContent = deviceType;
+            
+            // Update breakpoint
+            let breakpoint = 'XL';
+            if (width < 480) breakpoint = 'XS';
+            else if (width < 768) breakpoint = 'SM';
+            else if (width < 1024) breakpoint = 'MD';
+            else if (width < 1200) breakpoint = 'LG';
+            
+            document.getElementById('breakpoint').textContent = breakpoint;
+            
+            // Update other info
+            document.getElementById('touch-device').textContent = 'ontouchstart' in window ? 'Yes' : 'No';
+            document.getElementById('orientation').textContent = width > height ? 'Landscape' : 'Portrait';
+            document.getElementById('scroll-x').textContent = window.scrollX;
+            document.getElementById('scroll-y').textContent = window.scrollY;
+            document.getElementById('user-agent').textContent = navigator.userAgent;
+        }
+        
+        function checkMobileMenuStatus() {
+            const iframe = document.getElementById('test-iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            
+            if (iframeDoc) {
+                const toggle = iframeDoc.querySelector('.mobile-menu-toggle');
+                const menu = iframeDoc.querySelector('.mobile-menu');
+                const overlay = iframeDoc.querySelector('.mobile-menu-overlay');
+                
+                const toggleStatus = toggle ? (getComputedStyle(toggle).display !== 'none' ? 'Visible' : 'Hidden') : 'Not Found';
+                const menuStatus = menu ? (menu.classList.contains('active') ? 'Active' : 'Inactive') : 'Not Found';
+                const overlayStatus = overlay ? (overlay.classList.contains('active') ? 'Active' : 'Inactive') : 'Not Found';
+                
+                document.getElementById('toggle-status').textContent = toggleStatus;
+                document.getElementById('menu-status').textContent = menuStatus;
+                document.getElementById('overlay-status').textContent = overlayStatus;
+                
+                // Update status indicator
+                const indicator = document.getElementById('status-indicator');
+                const statusText = document.getElementById('status-text');
+                
+                if (toggleStatus === 'Visible' && menu && overlay) {
+                    indicator.className = 'status-indicator success';
+                    statusText.textContent = 'Mobile menu detected and working';
+                } else if (toggleStatus === 'Not Found') {
+                    indicator.className = 'status-indicator error';
+                    statusText.textContent = 'Mobile menu toggle not found';
+                } else {
+                    indicator.className = 'status-indicator warning';
+                    statusText.textContent = 'Mobile menu may have issues';
+                }
+            }
+        }
+        
+        function setupEventListeners() {
+            window.addEventListener('resize', () => {
+                updateDebugInfo();
+                setTimeout(checkMobileMenuStatus, 100);
+            });
+            
+            window.addEventListener('scroll', () => {
+                document.getElementById('scroll-x').textContent = window.scrollX;
+                document.getElementById('scroll-y').textContent = window.scrollY;
+            });
+            
+            // Check iframe load
+            const iframe = document.getElementById('test-iframe');
+            iframe.addEventListener('load', () => {
+                setTimeout(checkMobileMenuStatus, 500);
+            });
+        }
+        
+        function setViewportSize(width, height) {
+            const frame = document.getElementById('website-frame');
+            frame.style.width = width + 'px';
+            frame.style.height = height + 'px';
+            
+            // Update active button
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentSize = { width, height };
+            updateDebugInfo();
+        }
+        
+        function setCustomViewport() {
+            const width = parseInt(document.getElementById('custom-width').value);
+            const height = parseInt(document.getElementById('custom-height').value);
+            
+            if (width > 0 && height > 0) {
+                setViewportSize(width, height);
+            }
+        }
+        
+        function resetViewport() {
+            const frame = document.getElementById('website-frame');
+            frame.style.width = '';
+            frame.style.height = '';
+            
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            currentSize = null;
+            updateDebugInfo();
+        }
+        
+        function toggleMobileMenu() {
+            const iframe = document.getElementById('test-iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const toggle = iframeDoc.querySelector('.mobile-menu-toggle');
+            
+            if (toggle) {
+                toggle.click();
+                setTimeout(checkMobileMenuStatus, 100);
+            }
+        }
+        
+        function openMobileMenu() {
+            const iframe = document.getElementById('test-iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const toggle = iframeDoc.querySelector('.mobile-menu-toggle');
+            
+            if (toggle && !iframeDoc.querySelector('.mobile-menu.active')) {
+                toggle.click();
+                setTimeout(checkMobileMenuStatus, 100);
+            }
+        }
+        
+        function closeMobileMenu() {
+            const iframe = document.getElementById('test-iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const menu = iframeDoc.querySelector('.mobile-menu');
+            const overlay = iframeDoc.querySelector('.mobile-menu-overlay');
+            
+            if (menu && menu.classList.contains('active')) {
+                if (overlay) overlay.click();
+                setTimeout(checkMobileMenuStatus, 100);
+            }
+        }
+        
+        function refreshPage() {
+            const iframe = document.getElementById('test-iframe');
+            iframe.src = iframe.src;
+        }
+        
+        function toggleDebugMode() {
+            debugMode = !debugMode;
+            const iframe = document.getElementById('test-iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            
+            if (iframeDoc) {
+                if (debugMode) {
+                    iframeDoc.body.classList.add('debug-mobile-menu');
+                } else {
+                    iframeDoc.body.classList.remove('debug-mobile-menu');
+                }
+            }
+        }
+        
+        // Auto-check status every 2 seconds
+        setInterval(checkMobileMenuStatus, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVESTHINK - Responsive Testing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .device-frame {
+            border: 2px solid #3B82F6;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            background: #1a1a1a;
+        }
+        
+        .device-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .device-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3B82F6;
+        }
+        
+        .device-size {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .device-content {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .resize-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: #3B82F6;
+            cursor: nwse-resize;
+            border-radius: 10px 0 10px 0;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 1000;
+        }
+        
+        .control-btn {
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .control-btn:hover {
+            background: #2563EB;
+        }
+        
+        .control-btn.active {
+            background: #10b981;
+        }
+        
+        .info-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 12px;
+            max-width: 200px;
+        }
+        
+        .info-item {
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .info-label {
+            color: #888;
+        }
+        
+        .info-value {
+            color: #3B82F6;
+            font-weight: 600;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+        }
+        
+        .preset-devices {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .preset-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        
+        .preset-btn:hover {
+            background: #555;
+        }
+        
+        .preset-btn.active {
+            background: #3B82F6;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <div class="device-name">📱 Responsive Testing</div>
+        <button class="control-btn" onclick="toggleRotation()">🔄 Rotate</button>
+        <button class="control-btn" onclick="resetView()">🔄 Reset</button>
+        <button class="control-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+    </div>
+    
+    <div class="info-panel">
+        <div class="info-item">
+            <span class="info-label">Width:</span>
+            <span class="info-value" id="width-info">1200px</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Height:</span>
+            <span class="info-value" id="height-info">600px</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Device:</span>
+            <span class="info-value" id="device-info">Desktop</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Orientation:</span>
+            <span class="info-value" id="orientation-info">Landscape</span>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <div class="preset-devices">
+            <button class="preset-btn active" onclick="setDevice('desktop')">🖥️ Desktop</button>
+            <button class="preset-btn" onclick="setDevice('tablet')">📱 Tablet</button>
+            <button class="preset-btn" onclick="setDevice('mobile')">📱 Mobile</button>
+            <button class="preset-btn" onclick="setDevice('small-mobile')">📱 Small</button>
+            <button class="preset-btn" onclick="setDevice('landscape')">📱 Landscape</button>
+        </div>
+        
+        <div class="device-frame" id="device-frame">
+            <div class="device-header">
+                <div class="device-name" id="device-name">Desktop View</div>
+                <div class="device-size" id="device-size">1200 x 600</div>
+            </div>
+            <div class="device-content" id="device-content">
+                <iframe src="index.html" id="test-frame"></iframe>
+                <div class="resize-handle" id="resize-handle"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentDevice = 'desktop';
+        let isRotated = false;
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight;
+        
+        const devices = {
+            desktop: { width: 1200, height: 600, name: 'Desktop' },
+            tablet: { width: 768, height: 1024, name: 'Tablet' },
+            mobile: { width: 375, height: 667, name: 'Mobile' },
+            'small-mobile': { width: 320, height: 568, name: 'Small Mobile' },
+            landscape: { width: 667, height: 375, name: 'Mobile Landscape' }
+        };
+        
+        function setDevice(deviceType) {
+            currentDevice = deviceType;
+            const device = devices[deviceType];
+            
+            // Update active button
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update frame
+            updateDeviceFrame(device);
+            
+            // Update info
+            updateInfo(device);
+        }
+        
+        function updateDeviceFrame(device) {
+            const frame = document.getElementById('device-frame');
+            const content = document.getElementById('device-content');
+            const iframe = document.getElementById('test-frame');
+            
+            let width = device.width;
+            let height = device.height;
+            
+            if (isRotated) {
+                [width, height] = [height, width];
+            }
+            
+            // Limit maximum size
+            const maxWidth = window.innerWidth - 100;
+            const maxHeight = window.innerHeight - 200;
+            
+            if (width > maxWidth) {
+                height = (maxWidth / width) * height;
+                width = maxWidth;
+            }
+            
+            if (height > maxHeight) {
+                width = (maxHeight / height) * width;
+                height = maxHeight;
+            }
+            
+            content.style.width = width + 'px';
+            content.style.height = height + 'px';
+            iframe.style.height = height + 'px';
+            
+            document.getElementById('device-name').textContent = device.name + (isRotated ? ' (Rotated)' : '');
+            document.getElementById('device-size').textContent = `${Math.round(width)} x ${Math.round(height)}`;
+        }
+        
+        function updateInfo(device) {
+            let width = device.width;
+            let height = device.height;
+            
+            if (isRotated) {
+                [width, height] = [height, width];
+            }
+            
+            document.getElementById('width-info').textContent = width + 'px';
+            document.getElementById('height-info').textContent = height + 'px';
+            document.getElementById('device-info').textContent = device.name;
+            document.getElementById('orientation-info').textContent = width > height ? 'Landscape' : 'Portrait';
+        }
+        
+        function toggleRotation() {
+            isRotated = !isRotated;
+            updateDeviceFrame(devices[currentDevice]);
+            updateInfo(devices[currentDevice]);
+        }
+        
+        function resetView() {
+            isRotated = false;
+            setDevice('desktop');
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // Resize functionality
+        const resizeHandle = document.getElementById('resize-handle');
+        const deviceContent = document.getElementById('device-content');
+        
+        resizeHandle.addEventListener('mousedown', initResize);
+        document.addEventListener('mousemove', doResize);
+        document.addEventListener('mouseup', stopResize);
+        
+        // Touch events for mobile
+        resizeHandle.addEventListener('touchstart', initResize);
+        document.addEventListener('touchmove', doResize);
+        document.addEventListener('touchend', stopResize);
+        
+        function initResize(e) {
+            isResizing = true;
+            startX = e.clientX || e.touches[0].clientX;
+            startY = e.clientY || e.touches[0].clientY;
+            startWidth = parseInt(document.defaultView.getComputedStyle(deviceContent).width, 10);
+            startHeight = parseInt(document.defaultView.getComputedStyle(deviceContent).height, 10);
+            e.preventDefault();
+        }
+        
+        function doResize(e) {
+            if (!isResizing) return;
+            
+            const currentX = e.clientX || e.touches[0].clientX;
+            const currentY = e.clientY || e.touches[0].clientY;
+            
+            const newWidth = startWidth + currentX - startX;
+            const newHeight = startHeight + currentY - startY;
+            
+            if (newWidth > 200 && newHeight > 200) {
+                deviceContent.style.width = newWidth + 'px';
+                deviceContent.style.height = newHeight + 'px';
+                document.getElementById('test-frame').style.height = newHeight + 'px';
+                
+                // Update info
+                document.getElementById('width-info').textContent = newWidth + 'px';
+                document.getElementById('height-info').textContent = newHeight + 'px';
+                document.getElementById('device-size').textContent = `${newWidth} x ${newHeight}`;
+                document.getElementById('orientation-info').textContent = newWidth > newHeight ? 'Landscape' : 'Portrait';
+            }
+        }
+        
+        function stopResize() {
+            isResizing = false;
+        }
+        
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            updateDeviceFrame(devices[currentDevice]);
+        });
+        
+        // Initialize
+        updateDeviceFrame(devices.desktop);
+        updateInfo(devices.desktop);
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'r':
+                case 'R':
+                    toggleRotation();
+                    break;
+                case 'f':
+                case 'F':
+                    toggleFullscreen();
+                    break;
+                case '1':
+                    setDevice('desktop');
+                    break;
+                case '2':
+                    setDevice('tablet');
+                    break;
+                case '3':
+                    setDevice('mobile');
+                    break;
+                case '4':
+                    setDevice('small-mobile');
+                    break;
+                case '5':
+                    setDevice('landscape');
+                    break;
+            }
+        });
+        
+        console.log('📱 Responsive Testing Tool Loaded');
+        console.log('Keyboard shortcuts:');
+        console.log('1-5: Switch devices');
+        console.log('R: Rotate');
+        console.log('F: Fullscreen');
+    </script>
+</body>
+</html>

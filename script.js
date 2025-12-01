@@ -223,6 +223,15 @@ const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
 const mobileMenuClose = document.querySelector('.mobile-menu-close');
 const mobileNavLinks = document.querySelectorAll('.mobile-nav-menu a');
 
+// Debug: Check if elements exist
+console.log('Mobile menu elements:', {
+    toggle: mobileMenuToggle,
+    menu: mobileMenu,
+    overlay: mobileMenuOverlay,
+    close: mobileMenuClose,
+    links: mobileNavLinks.length
+});
+
 function openMobileMenu() {
     mobileMenu.classList.add('active');
     mobileMenuOverlay.classList.add('active');
@@ -236,15 +245,32 @@ function closeMobileMenu() {
 }
 
 if (mobileMenuToggle) {
-    mobileMenuToggle.addEventListener('click', openMobileMenu);
+    mobileMenuToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Mobile menu toggle clicked');
+        openMobileMenu();
+    });
+} else {
+    console.error('Mobile menu toggle not found!');
 }
 
 if (mobileMenuClose) {
-    mobileMenuClose.addEventListener('click', closeMobileMenu);
+    mobileMenuClose.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Mobile menu close clicked');
+        closeMobileMenu();
+    });
+} else {
+    console.error('Mobile menu close not found!');
 }
 
 if (mobileMenuOverlay) {
-    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+    mobileMenuOverlay.addEventListener('click', (e) => {
+        console.log('Mobile menu overlay clicked');
+        closeMobileMenu();
+    });
+} else {
+    console.error('Mobile menu overlay not found!');
 }
 
 // Close mobile menu when clicking on a link
@@ -445,6 +471,142 @@ const setVH = () => {
 
 setVH();
 window.addEventListener('resize', setVH);
+
+// Better mobile menu handling with body scroll lock
+function lockBodyScroll() {
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+}
+
+function unlockBodyScroll() {
+    const scrollY = document.body.style.top;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+}
+
+// Update mobile menu functions
+function openMobileMenu() {
+    mobileMenu.classList.add('active');
+    mobileMenuOverlay.classList.add('active');
+    lockBodyScroll();
+}
+
+function closeMobileMenu() {
+    mobileMenu.classList.remove('active');
+    mobileMenuOverlay.classList.remove('active');
+    unlockBodyScroll();
+}
+
+// Add swipe gesture for mobile menu
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    // Swipe right to open menu (from left edge)
+    if (touchStartX < 50 && diff < -swipeThreshold) {
+        if (!mobileMenu.classList.contains('active')) {
+            openMobileMenu();
+        }
+    }
+    
+    // Swipe left to close menu
+    if (diff > swipeThreshold && mobileMenu.classList.contains('active')) {
+        closeMobileMenu();
+    }
+}
+
+// Better responsive image handling
+function handleResponsiveImages() {
+    const images = document.querySelectorAll('img[data-src]');
+    images.forEach(img => {
+        if (img.getBoundingClientRect().top < window.innerHeight + 200) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+        }
+    });
+}
+
+// Debounced resize handler
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        handleResponsiveImages();
+        setVH();
+        
+        // Close mobile menu on resize to desktop
+        if (window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    }, 250);
+});
+
+// Add orientation change handler
+window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+        setVH();
+        handleResponsiveImages();
+    }, 100);
+});
+
+// Better performance monitoring
+const performanceObserver = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+        if (entry.entryType === 'measure') {
+            console.log(`${entry.name}: ${entry.duration}ms`);
+        }
+    }
+});
+
+if ('PerformanceObserver' in window) {
+    performanceObserver.observe({ entryTypes: ['measure'] });
+}
+
+// Add responsive navigation improvements
+function handleResponsiveNav() {
+    const navMenu = document.querySelector('.nav-menu');
+    const navActions = document.querySelector('.nav-actions');
+    
+    if (window.innerWidth <= 820) {
+        if (navMenu && !navMenu.classList.contains('mobile-hidden')) {
+            navMenu.style.display = 'none';
+            navMenu.classList.add('mobile-hidden');
+        }
+    } else {
+        if (navMenu && navMenu.classList.contains('mobile-hidden')) {
+            navMenu.style.display = 'flex';
+            navMenu.classList.remove('mobile-hidden');
+        }
+    }
+}
+
+// Initialize responsive handlers
+handleResponsiveNav();
+window.addEventListener('resize', handleResponsiveNav);
+
+// Add smooth scroll polyfill for older browsers
+if (!('scrollBehavior' in document.documentElement.style)) {
+    import('https://cdn.jsdelivr.net/npm/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js')
+        .then(() => {
+            window.__forceSmoothScrollPolyfill__ = true;
+        });
+}
 
 // Detect if user prefers reduced motion
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
