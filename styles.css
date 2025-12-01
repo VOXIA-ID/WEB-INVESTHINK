@@ -200,10 +200,35 @@ body {
     border: 1px solid var(--border-color);
     transform: rotateX(5deg);
     transition: transform 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.chat-window::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    animation: chatGlow 8s ease-in-out infinite;
 }
 
 .chat-window:hover {
     transform: rotateX(0deg);
+    box-shadow: 0 25px 70px rgba(59, 130, 246, 0.3);
+}
+
+@keyframes chatGlow {
+    0%, 100% {
+        transform: translate(0%, 0%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(10%, 10%) scale(1.1);
+        opacity: 0.6;
+    }
 }
 
 .chat-header {
@@ -242,6 +267,46 @@ body {
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.6;
+    position: relative;
+    animation: messageSlideIn 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.chat-message:nth-child(1) { animation-delay: 0.2s; }
+.chat-message:nth-child(2) { animation-delay: 0.4s; }
+.chat-message:nth-child(3) { animation-delay: 0.6s; }
+
+.chat-message::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--accent-blue) 0%, transparent 100%);
+    border-radius: 12px 0 0 12px;
+    animation: messagePulse 2s ease-in-out infinite;
+}
+
+@keyframes messageSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes messagePulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 /* Partners Section */
@@ -262,30 +327,65 @@ body {
     font-size: 24px;
     font-weight: 700;
     color: var(--text-primary);
-    opacity: 0;
+    opacity: 0.4;
     transition: all 0.5s ease;
-    transform: translateY(20px);
+    cursor: pointer;
+    position: relative;
+    animation: partnerFloat 3s ease-in-out infinite;
 }
 
-.partner-logo.fade-in-up {
-    opacity: 0.6;
-    transform: translateY(0);
-    animation: fadeInScale 0.6s ease-out forwards;
+.partner-logo:nth-child(1) { animation-delay: 0s; }
+.partner-logo:nth-child(2) { animation-delay: 0.5s; }
+.partner-logo:nth-child(3) { animation-delay: 1s; }
+.partner-logo:nth-child(4) { animation-delay: 1.5s; }
+.partner-logo:nth-child(5) { animation-delay: 2s; }
+.partner-logo:nth-child(6) { animation-delay: 2.5s; }
+
+.partner-logo::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
 }
 
 .partner-logo:hover {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.15) translateY(-5px);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
 }
 
-@keyframes fadeInScale {
+.partner-logo:hover::before {
+    opacity: 1;
+    animation: pulse 1.5s ease-out infinite;
+}
+
+@keyframes partnerFloat {
+    0%, 100% {
+        transform: translateY(0px);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-10px);
+        opacity: 0.7;
+    }
+}
+
+@keyframes pulse {
     0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.9);
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
     }
     100% {
-        opacity: 0.6;
-        transform: translateY(0) scale(1);
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
     }
 }
 
@@ -665,20 +765,109 @@ table td {
     display: flex;
     gap: 15px;
     align-items: flex-end;
+    justify-content: center;
 }
 
 .candle {
     width: 40px;
     border-radius: 4px;
     position: relative;
+    animation: candleGrow 1s ease-out forwards, candlePulse 3s ease-in-out infinite;
+    transform-origin: bottom;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
+.candle:nth-child(1) { animation-delay: 0s, 1s; }
+.candle:nth-child(2) { animation-delay: 0.1s, 1.2s; }
+.candle:nth-child(3) { animation-delay: 0.2s, 1.4s; }
+.candle:nth-child(4) { animation-delay: 0.3s, 1.6s; }
+.candle:nth-child(5) { animation-delay: 0.4s, 1.8s; }
 
 .candle.green {
     background: linear-gradient(180deg, #10b981 0%, #059669 100%);
 }
 
+.candle.green::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 25%;
+    background: #10b981;
+    animation: wickPulse 2s ease-in-out infinite;
+}
+
+.candle.green::after {
+    content: '';
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 20%;
+    background: #10b981;
+    animation: wickPulse 2s ease-in-out infinite;
+}
+
 .candle.red {
     background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+}
+
+.candle.red::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 25%;
+    background: #ef4444;
+    animation: wickPulse 2s ease-in-out infinite;
+}
+
+.candle.red::after {
+    content: '';
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 20%;
+    background: #ef4444;
+    animation: wickPulse 2s ease-in-out infinite;
+}
+
+@keyframes candleGrow {
+    0% {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+@keyframes candlePulse {
+    0%, 100% {
+        transform: scaleY(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scaleY(1.05);
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes wickPulse {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 /* Chat Interface */
@@ -864,7 +1053,7 @@ table td {
     height: 100%;
 }
 
-/* Crypto Chart Full */
+/* Crypto Chart Full - Watchlist */
 .crypto-chart-full {
     background: var(--bg-card);
     border-radius: 12px;
@@ -881,72 +1070,153 @@ table td {
     border-radius: 8px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
 }
 
+/* Grid lines */
 .chart-visual::before {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: rgba(59, 130, 246, 0.3);
-    transform: translateY(-50%);
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
 }
 
+/* Animated glow effect */
 .chart-visual::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    background: linear-gradient(to top, #10b981 0%, transparent 100%);
-    opacity: 0.3;
-    animation: chartPulse 3s ease-in-out infinite;
+    left: -100%;
+    width: 200%;
+    height: 150px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(16, 185, 129, 0.3) 25%,
+        rgba(59, 130, 246, 0.3) 50%,
+        rgba(16, 185, 129, 0.3) 75%,
+        transparent 100%
+    );
+    animation: chartGlow 5s ease-in-out infinite;
 }
 
 /* Animated chart line */
 .chart-line {
     position: absolute;
-    bottom: 30%;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 40%;
+    height: 100%;
+    background: transparent;
+}
+
+.chart-line::before {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    width: 100%;
+    height: 60%;
     background: linear-gradient(90deg, 
         transparent 0%,
-        rgba(59, 130, 246, 0.2) 10%,
-        rgba(59, 130, 246, 0.4) 30%,
-        rgba(16, 185, 129, 0.4) 60%,
-        rgba(16, 185, 129, 0.2) 80%,
+        rgba(59, 130, 246, 0.3) 10%,
+        rgba(59, 130, 246, 0.5) 25%,
+        rgba(16, 185, 129, 0.5) 50%,
+        rgba(16, 185, 129, 0.7) 75%,
+        rgba(16, 185, 129, 0.4) 90%,
         transparent 100%
     );
     clip-path: polygon(
-        0% 80%, 10% 70%, 20% 75%, 30% 50%, 
-        40% 45%, 50% 30%, 60% 35%, 70% 20%, 
-        80% 25%, 90% 15%, 100% 10%,
+        0% 100%, 
+        5% 85%, 10% 80%, 15% 75%, 20% 65%, 
+        25% 60%, 30% 45%, 35% 40%, 40% 35%, 
+        45% 30%, 50% 25%, 55% 20%, 60% 22%, 
+        65% 25%, 70% 20%, 75% 15%, 80% 18%, 
+        85% 20%, 90% 25%, 95% 30%, 100% 35%,
+        100% 100%
+    );
+    animation: chartWave 4s ease-in-out infinite;
+}
+
+/* Line stroke effect */
+.chart-line::after {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(16, 185, 129, 0.8) 10%,
+        rgba(16, 185, 129, 1) 50%,
+        rgba(16, 185, 129, 0.8) 90%,
+        transparent 100%
+    );
+    clip-path: polygon(
+        0% 50%, 
+        5% 35%, 10% 30%, 15% 25%, 20% 15%, 
+        25% 10%, 30% 0%, 35% 0%, 40% 0%, 
+        45% 0%, 50% 0%, 55% 0%, 60% 2%, 
+        65% 5%, 70% 0%, 75% 0%, 80% 3%, 
+        85% 5%, 90% 10%, 95% 15%, 100% 20%,
         100% 100%, 0% 100%
     );
-    animation: chartMove 4s ease-in-out infinite;
+    filter: blur(1px);
+    animation: chartWave 4s ease-in-out infinite, chartPulse 2s ease-in-out infinite;
+}
+
+@keyframes gridMove {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    100% {
+        transform: translateX(50px) translateY(50px);
+    }
+}
+
+@keyframes chartGlow {
+    0%, 100% {
+        left: -100%;
+        opacity: 0.5;
+    }
+    50% {
+        left: 100%;
+        opacity: 0.8;
+    }
+}
+
+@keyframes chartWave {
+    0%, 100% {
+        transform: translateY(0px) scaleY(1);
+    }
+    25% {
+        transform: translateY(-5px) scaleY(1.05);
+    }
+    50% {
+        transform: translateY(0px) scaleY(1);
+    }
+    75% {
+        transform: translateY(5px) scaleY(0.95);
+    }
 }
 
 @keyframes chartPulse {
     0%, 100% {
-        opacity: 0.3;
-        transform: scaleY(1);
+        opacity: 0.8;
+        filter: blur(1px) drop-shadow(0 0 5px rgba(16, 185, 129, 0.5));
     }
     50% {
-        opacity: 0.5;
-        transform: scaleY(1.1);
-    }
-}
-
-@keyframes chartMove {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(-5px);
+        opacity: 1;
+        filter: blur(0.5px) drop-shadow(0 0 10px rgba(16, 185, 129, 0.8));
     }
 }
 
