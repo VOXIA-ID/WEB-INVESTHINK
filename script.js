@@ -82,6 +82,12 @@ document.querySelectorAll('.feature-item, .testimonial-card, .partner-logo').for
     observer.observe(el);
 });
 
+// Add stagger animation to partner logos
+const partnerLogos = document.querySelectorAll('.partner-logo');
+partnerLogos.forEach((logo, index) => {
+    logo.style.animationDelay = `${index * 0.1}s`;
+});
+
 // Crypto price update simulation (for demo purposes)
 function updateCryptoPrices() {
     const prices = document.querySelectorAll('.coin-price');
