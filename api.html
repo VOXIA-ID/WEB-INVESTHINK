@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - INVESTHINK</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .api-section {
+            padding: 180px 0 100px;
+        }
+        
+        .api-intro {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            text-align: center;
+        }
+        
+        .api-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .api-endpoint {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .method-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .method-get {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .method-post {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+        
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .endpoint-desc {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .code-block {
+            background: #0a0a0a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: #10b981;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .params-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .params-table th {
+            text-align: left;
+            padding: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .params-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .required-badge {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .optional-badge {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9ca3af;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .api-key-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 60px 0;
+            text-align: center;
+        }
+        
+        .api-key-section h3 {
+            color: var(--text-primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .api-key-section p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <path d="M10 10 L30 10 L30 15 L15 15 L15 30 L10 30 Z" fill="#3B82F6"/>
+                    <path d="M20 20 L35 35 L30 35 L20 25 Z" fill="#3B82F6"/>
+                </svg>
+                <span>INVESTHINK</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="index.html#testimonial">Testimonial</a></li>
+                <li><a href="api.html">API</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="icon-btn globe-btn">🌐</button>
+                <button class="icon-btn theme-btn">☀️</button>
+                <button class="btn-secondary">Sign In</button>
+                <button class="btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- API Documentation Section -->
+    <section class="api-section">
+        <div class="container">
+            <div class="api-intro">
+                <div class="section-badge">API Documentation</div>
+                <h1 class="section-title">INVESTHINK API</h1>
+                <p style="color: var(--text-secondary); font-size: 18px; margin-top: 20px;">
+                    Integrate powerful crypto analysis and AI capabilities into your own applications
+                </p>
+            </div>
+
+            <div class="api-key-section">
+                <h3>Get Your API Key</h3>
+                <p>Sign up for an Enterprise account to get access to our API</p>
+                <button class="btn-primary btn-large">Request API Access</button>
+            </div>
+
+            <div class="api-content">
+                <h2 style="color: var(--text-primary); font-size: 32px; margin-bottom: 30px;">Base URL</h2>
+                <div class="code-block">
+                    <pre>https://api.investhink.com/v1</pre>
+                </div>
+
+                <h2 style="color: var(--text-primary); font-size: 32px; margin: 60px 0 30px;">Authentication</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 20px; line-height: 1.8;">
+                    All API requests require authentication using an API key. Include your API key in the request header:
+                </p>
+                <div class="code-block">
+                    <pre>Authorization: Bearer YOUR_API_KEY</pre>
+                </div>
+
+                <h2 style="color: var(--text-primary); font-size: 32px; margin: 60px 0 30px;">Endpoints</h2>
+
+                <!-- Get Crypto Price -->
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="method-badge method-get">GET</span>
+                        <span class="endpoint-path">/crypto/price/{symbol}</span>
+                    </div>
+                    <p class="endpoint-desc">Get current price and market data for a specific cryptocurrency</p>
+                    
+                    <h4 style="color: var(--text-primary); margin: 20px 0 10px;">Parameters</h4>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>symbol</code></td>
+                                <td>string</td>
+                                <td><span class="required-badge">Required</span></td>
+                                <td>Cryptocurrency symbol (e.g., BTC, ETH)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 style="color: var(--text-primary); margin: 20px 0 10px;">Response Example</h4>
+                    <div class="code-block">
+                        <pre>{
+  "symbol": "BTC",
+  "name": "Bitcoin",
+  "price": 67234.50,
+  "change_24h": 2.45,
+  "volume_24h": 2400000000,
+  "market_cap": 1300000000000,
+  "timestamp": "2024-12-01T12:00:00Z"
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Get AI Analysis -->
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="method-badge method-post">POST</span>
+                        <span class="endpoint-path">/ai/analyze</span>
+                    </div>
+                    <p class="endpoint-desc">Get AI-powered analysis for a cryptocurrency</p>
+                    
+                    <h4 style="color: var(--text-primary); margin: 20px 0 10px;">Request Body</h4>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>symbol</code></td>
+                                <td>string</td>
+                                <td><span class="required-badge">Required</span></td>
+                                <td>Cryptocurrency symbol</td>
+                            </tr>
+                            <tr>
+                                <td><code>timeframe</code></td>
+                                <td>string</td>
+                                <td><span class="optional-badge">Optional</span></td>
+                                <td>Analysis timeframe (1h, 4h, 1d, 1w)</td>
+                            </tr>
+                            <tr>
+                                <td><code>indicators</code></td>
+                                <td>array</td>
+                                <td><span class="optional-badge">Optional</span></td>
+                                <td>Technical indicators to include</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 style="color: var(--text-primary); margin: 20px 0 10px;">Response Example</h4>
+                    <div class="code-block">
+                        <pre>{
+  "symbol": "BTC",
+  "analysis": {
+    "trend": "bullish",
+    "signal": "buy",
+    "confidence": 0.85,
+    "entry_point": 66500,
+    "target": 70000,
+    "stop_loss": 65000,
+    "indicators": {
+      "rsi": 58,
+      "macd": "positive",
+      "ema_20": 66200,
+      "ema_50": 65800
+    }
+  },
+  "summary": "Strong bullish momentum with potential upside..."
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Get Screener Results -->
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="method-badge method-get">GET</span>
+                        <span class="endpoint-path">/screener</span>
+                    </div>
+                    <p class="endpoint-desc">Screen cryptocurrencies based on custom criteria</p>
+                    
+                    <h4 style="color: var(--text-primary); margin: 20px 0 10px;">Query Parameters</h4>
+                    <table class="params-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>filter</code></td>
+                                <td>string</td>
+                                <td><span class="required-badge">Required</span></td>
+                                <td>Filter type (top_gainer, top_loser, high_volume)</td>
+                            </tr>
+                            <tr>
+                                <td><code>limit</code></td>
+                                <td>integer</td>
+                                <td><span class="optional-badge">Optional</span></td>
+                                <td>Number of results (default: 10, max: 100)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 style="color: var(--text-primary); margin: 20px 0 10px;">Response Example</h4>
+                    <div class="code-block">
+                        <pre>{
+  "filter": "top_gainer",
+  "results": [
+    {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "price": 3567.00,
+      "change_24h": 5.67,
+      "volume_24h": 1800000000
+    },
+    {
+      "symbol": "BNB",
+      "name": "Binance Coin",
+      "price": 421.00,
+      "change_24h": 4.23,
+      "volume_24h": 890000000
+    }
+  ]
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Watchlist Management -->
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="method-badge method-post">POST</span>
+                        <span class="endpoint-path">/watchlist</span>
+                    </div>
+                    <p class="endpoint-desc">Add cryptocurrency to watchlist</p>
+                    
+                    <h4 style="color: var(--text-primary); margin: 20px 0 10px;">Request Body</h4>
+                    <div class="code-block">
+                        <pre>{
+  "symbol": "BTC",
+  "note": "Strong support at 65000",
+  "alert_price": 70000
+}</pre>
+                    </div>
+                </div>
+
+                <!-- Rate Limits -->
+                <div style="margin-top: 80px; padding: 40px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;">
+                    <h2 style="color: var(--text-primary); font-size: 28px; margin-bottom: 20px;">Rate Limits</h2>
+                    <ul style="color: var(--text-secondary); line-height: 2; list-style: none;">
+                        <li>✓ <strong>Free Plan:</strong> 100 requests per day</li>
+                        <li>✓ <strong>Pro Plan:</strong> 10,000 requests per day</li>
+                        <li>✓ <strong>Enterprise Plan:</strong> Custom rate limits</li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div style="margin-top: 40px; padding: 40px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1)); border: 1px solid var(--accent-blue); border-radius: 12px; text-align: center;">
+                    <h2 style="color: var(--text-primary); font-size: 28px; margin-bottom: 15px;">Need Help?</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                        Our developer support team is here to help you integrate INVESTHINK API
+                    </p>
+                    <button class="btn-primary">Contact Developer Support</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <svg width="40" height="40" viewBox="0 0 40 40">
+                            <path d="M10 10 L30 10 L30 15 L15 15 L15 30 L10 30 Z" fill="#3B82F6"/>
+                            <path d="M20 20 L35 35 L30 35 L20 25 Z" fill="#3B82F6"/>
+                        </svg>
+                        <span>INVESTHINK</span>
+                    </div>
+                    <p class="footer-desc">Platform trading kripto dengan teknologi AI terdepan untuk membantu Anda membuat keputusan investasi yang lebih cerdas.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="index.html#features">Features</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="api.html">API</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Careers</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Privacy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 INVESTHINK. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#">Twitter</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Discord</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

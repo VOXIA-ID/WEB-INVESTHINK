@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - INVESTHINK</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .pricing-section {
+            padding: 180px 0 100px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+        }
+        
+        .pricing-card.featured {
+            border: 2px solid var(--accent-blue);
+            position: relative;
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-blue);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .pricing-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        .pricing-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        
+        .pricing-price span {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            flex: 1;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pricing-features li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .pricing-features li.disabled::before {
+            content: '✗';
+            color: #ef4444;
+        }
+        
+        .pricing-cta {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pricing-cta:hover {
+            background: var(--accent-blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .pricing-card.featured .pricing-cta {
+            background: linear-gradient(135deg, var(--accent-blue), #8B5CF6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <path d="M10 10 L30 10 L30 15 L15 15 L15 30 L10 30 Z" fill="#3B82F6"/>
+                    <path d="M20 20 L35 35 L30 35 L20 25 Z" fill="#3B82F6"/>
+                </svg>
+                <span>INVESTHINK</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="index.html#testimonial">Testimonial</a></li>
+                <li><a href="api.html">API</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="icon-btn globe-btn">🌐</button>
+                <button class="icon-btn theme-btn">☀️</button>
+                <button class="btn-secondary">Sign In</button>
+                <button class="btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Pricing</div>
+                <h1 class="section-title">Choose Your Plan</h1>
+                <p style="color: var(--text-secondary); font-size: 18px; margin-top: 20px;">
+                    Pilih paket yang sesuai dengan kebutuhan trading Anda
+                </p>
+            </div>
+            
+            <div class="pricing-grid">
+                <!-- Free Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-name">Free</div>
+                    <div class="pricing-desc">Untuk pemula yang ingin mencoba</div>
+                    <div class="pricing-price">
+                        Rp 0<span>/bulan</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>10 AI Analysis per hari</li>
+                        <li>Basic Screener</li>
+                        <li>5 Watchlist slots</li>
+                        <li>Community support</li>
+                        <li class="disabled">Advanced AI features</li>
+                        <li class="disabled">Custom GPT</li>
+                        <li class="disabled">Auto Update</li>
+                        <li class="disabled">Priority support</li>
+                    </ul>
+                    <button class="pricing-cta">Get Started Free</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">MOST POPULAR</div>
+                    <div class="pricing-name">Pro</div>
+                    <div class="pricing-desc">Untuk trader serius</div>
+                    <div class="pricing-price">
+                        Rp 299K<span>/bulan</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Unlimited AI Analysis</li>
+                        <li>Advanced Screener</li>
+                        <li>Unlimited Watchlist</li>
+                        <li>Custom GPT Access</li>
+                        <li>Advanced AI features</li>
+                        <li>Auto Update (WhatsApp/Telegram)</li>
+                        <li>Workspace Pro</li>
+                        <li>Priority email support</li>
+                    </ul>
+                    <button class="pricing-cta">Start Pro Trial</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-name">Enterprise</div>
+                    <div class="pricing-desc">Untuk institusi dan tim</div>
+                    <div class="pricing-price">
+                        Custom
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Everything in Pro</li>
+                        <li>API Access</li>
+                        <li>White-label solution</li>
+                        <li>Custom integration</li>
+                        <li>Dedicated account manager</li>
+                        <li>24/7 Premium support</li>
+                        <li>Custom training</li>
+                        <li>SLA guarantee</li>
+                    </ul>
+                    <button class="pricing-cta">Contact Sales</button>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div style="margin-top: 120px;">
+                <h2 class="section-title" style="text-align: center; margin-bottom: 60px;">
+                    Frequently Asked Questions
+                </h2>
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="margin-bottom: 30px; padding: 30px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 15px;">Apakah ada trial period?</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">Ya, kami menyediakan 7 hari trial gratis untuk paket Pro. Anda bisa membatalkan kapan saja tanpa dikenakan biaya.</p>
+                    </div>
+                    <div style="margin-bottom: 30px; padding: 30px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 15px;">Metode pembayaran apa saja yang diterima?</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">Kami menerima transfer bank, kartu kredit/debit, e-wallet (GoPay, OVO, Dana), dan cryptocurrency.</p>
+                    </div>
+                    <div style="margin-bottom: 30px; padding: 30px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 15px;">Bisakah upgrade/downgrade paket?</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">Ya, Anda bisa upgrade atau downgrade paket kapan saja. Perbedaan harga akan di-prorate sesuai periode billing.</p>
+                    </div>
+                    <div style="margin-bottom: 30px; padding: 30px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;">
+                        <h3 style="color: var(--text-primary); margin-bottom: 15px;">Apakah data saya aman?</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">Keamanan data adalah prioritas kami. Semua data dienkripsi dengan standar industri dan kami tidak pernah membagikan data Anda ke pihak ketiga.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <svg width="40" height="40" viewBox="0 0 40 40">
+                            <path d="M10 10 L30 10 L30 15 L15 15 L15 30 L10 30 Z" fill="#3B82F6"/>
+                            <path d="M20 20 L35 35 L30 35 L20 25 Z" fill="#3B82F6"/>
+                        </svg>
+                        <span>INVESTHINK</span>
+                    </div>
+                    <p class="footer-desc">Platform trading kripto dengan teknologi AI terdepan untuk membantu Anda membuat keputusan investasi yang lebih cerdas.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="index.html#features">Features</a></li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="api.html">API</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Careers</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Privacy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 INVESTHINK. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#">Twitter</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Discord</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
