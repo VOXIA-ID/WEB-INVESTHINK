@@ -462,11 +462,130 @@
     
     <!-- Flowise AI Chatbot -->
     <script type="module">
-        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-        Chatbot.init({
-            chatflowid: "a85b9de4-91ce-48c7-b1f3-a6a5419e0a35",
-            apiHost: "https://ai.voxia.id",
-        })
-    </script>
+  import Chatbot from 'https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js';
+  Chatbot.init({
+    chatflowid: 'a85b9de4-91ce-48c7-b1f3-a6a5419e0a35',
+    apiHost: 'https://ai.voxia.id',
+    chatflowConfig: {
+      // topK: 2
+    },
+    observersConfig: {
+      // (optional) Allows you to execute code in parent based upon signal observations within the chatbot.
+      // The userinput field submitted to bot ("" when reset by bot)
+      observeUserInput: (userInput) => {
+        console.log({ userInput });
+      },
+      // The bot message stack has changed
+      observeMessages: (messages) => {
+        console.log({ messages });
+      },
+      // The bot loading signal changed
+      observeLoading: (loading) => {
+        console.log({ loading });
+      },
+    },
+    theme: {
+      button: {
+        backgroundColor: '#3B81F6',
+        right: 20,
+        bottom: 20,
+        size: 48, // small | medium | large | number
+        dragAndDrop: true,
+        iconColor: 'white',
+
+        autoWindowOpen: {
+          autoOpen: true, //parameter to control automatic window opening
+          openDelay: 2, // Optional parameter for delay time in seconds
+          autoOpenOnMobile: false, //parameter to control automatic window opening in mobile
+        },
+      },
+      tooltip: {
+        showTooltip: true,
+        tooltipMessage: 'Hi There 👋!',
+        tooltipBackgroundColor: 'black',
+        tooltipTextColor: 'white',
+        tooltipFontSize: 16,
+      },
+      disclaimer: {
+        title: 'Disclaimer',
+        message: 'By using this chatbot, you agree to the <a target="_blank" href="#">Terms & Condition</a>', // Link changed to # as no specific link was provided
+        textColor: 'black',
+        buttonColor: '#3b82f6',
+        buttonText: 'Start Chatting',
+        buttonTextColor: 'white',
+        blurredBackgroundColor: 'rgba(0, 0, 0, 0.4)', //The color of the blurred background that overlays the chat interface
+        backgroundColor: 'white',
+        denyButtonText: 'Cancel',
+        denyButtonBgColor: '#ef4444',
+      },
+      form: {
+        backgroundColor: 'white',
+        textColor: 'black',
+      },
+      customCSS: `
+        .flowise-chat-popup .powered-by {
+          display: none !important;
+        }
+      `,
+      chatWindow: {
+        showTitle: true,
+        showAgentMessages: true,
+        title: 'INVESTHINK Bot', // Changed title
+
+        titleBackgroundColor: '#3B81F6',
+        titleTextColor: '#ffffff',
+        welcomeMessage: 'Halo! Ada yang bisa INVESTHINK bantu?', // Changed welcome message
+        errorMessage: 'Terjadi kesalahan, silakan coba lagi.', // Changed error message
+        backgroundColor: '#ffffff',
+        backgroundImage: '', // Removed image path
+        height: 700,
+        width: 400,
+        fontSize: 16,
+        starterPrompts: ['Apa itu INVESTHINK?', 'Bagaimana cara kerjanya?', 'Apa saja fitur INVESTHINK?'], // Changed starter prompts
+        starterPromptFontSize: 15,
+        clearChatOnReload: false, // If set to true, the chat will be cleared when the page reloads
+        sourceDocsTitle: 'Sumber:', // Changed source docs title
+        renderHTML: true,
+        botMessage: {
+          backgroundColor: '#f7f8ff',
+          textColor: '#303235',
+          showAvatar: true,
+
+        },
+        userMessage: {
+          backgroundColor: '#3B81F6',
+          textColor: '#ffffff',
+          showAvatar: true,
+        },
+        textInput: {
+          placeholder: 'Ketik pertanyaan Anda', // Changed placeholder
+          backgroundColor: '#ffffff',
+          textColor: '#303235',
+          sendButtonColor: '#3B81F6',
+          maxChars: 50,
+          maxCharsWarningMessage: 'Anda melampaui batas karakter. Mohon masukkan kurang dari 50 karakter.', // Changed warning message
+          autoFocus: true, // If not used, autofocus is disabled on mobile and enabled on desktop. true enables it on both, false disables it on both.
+          sendMessageSound: true,
+          // sendSoundLocation: "send_message.mp3", // If this is not used, the default sound effect will be played if sendSoundMessage is true.
+          receiveMessageSound: true,
+          // receiveSoundLocation: "receive_message.mp3", // If this is not used, the default sound effect will be played if receiveSoundMessage is true.
+        },
+        feedback: {
+          color: '#303235',
+        },
+        dateTimeToggle: {
+          date: true,
+          time: true,
+        },
+        footer: {
+          textColor: '#303235',
+          text: 'Powered by',
+          company: 'INVESTHINK', // Changed company
+          companyLink: '#', // Changed company link
+        },
+      },
+    },
+  });
+</script>
 </body>
 </html>
