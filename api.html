@@ -142,6 +142,99 @@
             color: var(--text-secondary);
             margin-bottom: 25px;
         }
+
+        /* Responsive API Styles */
+        @media (max-width: 768px) {
+            .api-section {
+                padding: 120px 0 60px;
+            }
+
+            .api-intro {
+                margin-bottom: 60px;
+            }
+
+            .api-endpoint {
+                padding: 20px;
+            }
+
+            .endpoint-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .endpoint-path {
+                font-size: 14px;
+                word-break: break-all;
+            }
+
+            .code-block {
+                padding: 15px;
+            }
+
+            .code-block pre {
+                font-size: 12px;
+            }
+
+            .params-table {
+                font-size: 13px;
+                display: block;
+                overflow-x: auto;
+            }
+
+            .params-table th,
+            .params-table td {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .api-key-section {
+                padding: 30px 20px;
+            }
+
+            .api-key-section h3 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .api-section {
+                padding: 100px 0 40px;
+            }
+
+            .api-endpoint {
+                padding: 15px;
+            }
+
+            .method-badge {
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+
+            .endpoint-path {
+                font-size: 12px;
+            }
+
+            .code-block {
+                padding: 12px;
+            }
+
+            .code-block pre {
+                font-size: 11px;
+            }
+
+            .api-key-section {
+                padding: 25px 15px;
+            }
+
+            .api-key-section h3 {
+                font-size: 18px;
+            }
+
+            .api-key-section p {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -166,9 +259,26 @@
                 <button class="icon-btn theme-btn">☀️</button>
                 <button class="btn-secondary">Sign In</button>
                 <button class="btn-primary">Sign Up</button>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">☰</button>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu">
+        <button class="mobile-menu-close" aria-label="Close menu">×</button>
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="index.html#testimonial">Testimonial</a></li>
+            <li><a href="api.html">API</a></li>
+        </ul>
+        <div class="mobile-nav-actions">
+            <button class="btn-secondary">Sign In</button>
+            <button class="btn-primary">Sign Up</button>
+        </div>
+    </div>
 
     <!-- API Documentation Section -->
     <section class="api-section">

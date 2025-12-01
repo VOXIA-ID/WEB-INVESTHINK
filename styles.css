@@ -535,8 +535,115 @@ body {
     font-size: 15px;
 }
 
+/* Mobile Menu Styles */
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    padding: 80px 20px 20px;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 28px;
+    cursor: pointer;
+    padding: 8px;
+    line-height: 1;
+}
+
+.mobile-nav-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.mobile-nav-menu a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    display: block;
+    padding: 12px 0;
+    transition: all 0.3s;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-nav-menu a:hover {
+    color: var(--accent-blue);
+    padding-left: 10px;
+}
+
+.mobile-nav-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.mobile-nav-actions .btn-secondary,
+.mobile-nav-actions .btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 14px 24px;
+    font-size: 16px;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
+    .container {
+        padding: 0 30px;
+    }
+
     .hero-title {
         font-size: 64px;
     }
@@ -553,9 +660,31 @@ body {
     .footer-links {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    .chat-window {
+        transform: rotateX(0deg);
+    }
+
+    .feature-image {
+        padding: 30px;
+        min-height: 350px;
+    }
 }
 
+/* Tablet Styles */
 @media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .navbar {
+        padding: 15px 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
     .nav-menu {
         display: none;
     }
@@ -563,28 +692,64 @@ body {
     .nav-actions {
         gap: 10px;
     }
-    
-    .btn-secondary,
-    .btn-primary {
-        padding: 8px 16px;
-        font-size: 13px;
+
+    .nav-actions .btn-secondary,
+    .nav-actions .btn-primary {
+        display: none;
+    }
+
+    .icon-btn {
+        padding: 6px;
+        font-size: 18px;
     }
     
     .hero {
-        padding: 140px 0 60px;
+        padding: 120px 0 60px;
+    }
+
+    .hero::before {
+        width: 400px;
+        height: 400px;
     }
     
     .hero-title {
         font-size: 48px;
+        line-height: 1.2;
     }
     
     .hero-subtitle {
         font-size: 16px;
+        padding: 0 10px;
+    }
+
+    .hero-image {
+        margin-top: 60px;
+    }
+
+    .chat-window {
+        padding: 20px;
+        transform: none;
     }
     
+    .partners {
+        padding: 60px 0;
+    }
+
     .partners-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 30px;
+    }
+
+    .partner-logo {
+        font-size: 20px;
+    }
+
+    .features {
+        padding: 80px 0;
+    }
+
+    .section-header {
+        margin-bottom: 60px;
     }
     
     .section-title {
@@ -608,9 +773,23 @@ body {
     .feature-description {
         font-size: 16px;
     }
+
+    .feature-image {
+        padding: 25px;
+        min-height: 320px;
+    }
+
+    .testimonial {
+        padding: 80px 0;
+    }
     
     .testimonial-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .footer {
+        padding: 60px 0 30px;
     }
     
     .footer-links {
@@ -631,37 +810,175 @@ body {
     .chart-container {
         flex-direction: column;
     }
+
+    .chart-sidebar {
+        flex-direction: row;
+        overflow-x: auto;
+        min-width: 100%;
+        padding-bottom: 10px;
+    }
+
+    .coin-item {
+        min-width: 120px;
+    }
     
     .table-tabs {
         overflow-x: auto;
         flex-wrap: nowrap;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-tabs::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .table-tabs::-webkit-scrollbar-track {
+        background: var(--bg-card);
+    }
+
+    .table-tabs::-webkit-scrollbar-thumb {
+        background: var(--accent-blue);
+        border-radius: 2px;
+    }
+
+    .table-content {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 500px;
+    }
+
+    .gpt-item {
+        padding: 15px;
+    }
+
+    .gpt-icon {
+        font-size: 28px;
+    }
+
+    .chat-visual {
+        height: 250px;
     }
 }
 
+/* Mobile Styles */
 @media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .navbar {
+        padding: 12px 0;
+    }
+
+    .logo {
+        font-size: 16px;
+        gap: 8px;
+    }
+
+    .logo svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .icon-btn {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+    .hero {
+        padding: 100px 0 40px;
+    }
+
+    .hero::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .badge {
+        font-size: 12px;
+        padding: 6px 16px;
+        margin-bottom: 20px;
+    }
+    
     .hero-title {
-        font-size: 36px;
+        font-size: 32px;
+        line-height: 1.3;
     }
     
     .hero-subtitle {
         font-size: 14px;
+        padding: 0 5px;
+    }
+
+    .hero-image {
+        margin-top: 40px;
+    }
+
+    .chat-window {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .chat-message {
+        padding: 12px 15px;
+        font-size: 13px;
     }
     
     .btn-large {
         padding: 12px 30px;
         font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .partners {
+        padding: 40px 0;
     }
     
     .section-title {
         font-size: 28px;
     }
+
+    .section-badge {
+        font-size: 12px;
+    }
     
     .feature-title {
         font-size: 24px;
     }
+
+    .feature-description {
+        font-size: 15px;
+    }
+
+    .feature-icon {
+        font-size: 13px;
+    }
+
+    .feature-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .features {
+        padding: 60px 0;
+    }
+
+    .feature-item {
+        margin-bottom: 60px;
+        gap: 30px;
+    }
     
     .partners-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .partner-logo {
+        font-size: 18px;
     }
     
     .chat-window {
@@ -670,7 +987,159 @@ body {
     
     .feature-image {
         padding: 20px;
-        min-height: 300px;
+        min-height: 280px;
+    }
+
+    .testimonial {
+        padding: 60px 0;
+    }
+
+    .testimonial-card {
+        padding: 20px;
+    }
+
+    .testimonial-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .testimonial-text {
+        font-size: 14px;
+    }
+
+    .footer {
+        padding: 40px 0 20px;
+    }
+
+    .footer-content {
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    .footer-desc {
+        font-size: 14px;
+    }
+
+    .crypto-table {
+        font-size: 13px;
+    }
+
+    .tab-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        white-space: nowrap;
+    }
+
+    table th,
+    table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .candle {
+        width: 30px;
+    }
+
+    .workspace-preview,
+    .ai-chart,
+    .chat-interface,
+    .gpt-list,
+    .crypto-chart-view,
+    .crypto-chart-full,
+    .notification-preview,
+    .chat-app-preview {
+        padding: 20px;
+    }
+
+    .workspace-input {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+
+    .widget-card {
+        padding: 15px;
+        min-height: 100px;
+    }
+
+    .chart-visual {
+        height: 220px;
+    }
+
+    .notification-card {
+        padding: 20px 25px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .notification-icon {
+        font-size: 32px;
+    }
+
+    .notification-text {
+        font-size: 14px;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .feature-title {
+        font-size: 20px;
+    }
+
+    .partners-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero {
+        padding: 120px 0 40px;
+    }
+
+    .hero-title {
+        font-size: 36px;
+    }
+
+    .hero-image {
+        margin-top: 30px;
+    }
+
+    .chat-window {
+        padding: 15px;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .btn-primary,
+    .btn-secondary,
+    .tab-btn,
+    .icon-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .nav-menu a,
+    .footer-column a,
+    .social-links a {
+        padding: 8px 0;
+    }
+
+    .coin-item,
+    .gpt-item,
+    .testimonial-card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(59, 130, 246, 0.1);
     }
 }
 

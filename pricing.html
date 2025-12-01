@@ -125,6 +125,67 @@
         .pricing-card.featured .pricing-cta {
             background: linear-gradient(135deg, var(--accent-blue), #8B5CF6);
         }
+
+        /* Responsive Pricing Styles */
+        @media (max-width: 768px) {
+            .pricing-section {
+                padding: 120px 0 60px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 40px;
+            }
+
+            .pricing-card {
+                padding: 30px;
+            }
+
+            .pricing-price {
+                font-size: 40px;
+            }
+
+            .pricing-features {
+                margin: 20px 0;
+            }
+
+            .pricing-features li {
+                font-size: 14px;
+                padding: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pricing-section {
+                padding: 100px 0 40px;
+            }
+
+            .pricing-card {
+                padding: 25px;
+            }
+
+            .pricing-name {
+                font-size: 20px;
+            }
+
+            .pricing-price {
+                font-size: 36px;
+            }
+
+            .pricing-price span {
+                font-size: 16px;
+            }
+
+            .pricing-features li {
+                font-size: 13px;
+            }
+
+            .pricing-cta {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -149,9 +210,26 @@
                 <button class="icon-btn theme-btn">☀️</button>
                 <button class="btn-secondary">Sign In</button>
                 <button class="btn-primary">Sign Up</button>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">☰</button>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu">
+        <button class="mobile-menu-close" aria-label="Close menu">×</button>
+        <ul class="mobile-nav-menu">
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="index.html#testimonial">Testimonial</a></li>
+            <li><a href="api.html">API</a></li>
+        </ul>
+        <div class="mobile-nav-actions">
+            <button class="btn-secondary">Sign In</button>
+            <button class="btn-primary">Sign Up</button>
+        </div>
+    </div>
 
     <!-- Pricing Section -->
     <section class="pricing-section">

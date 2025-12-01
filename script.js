@@ -216,25 +216,61 @@ document.querySelectorAll('.btn-primary').forEach(btn => {
     });
 });
 
-// Mobile menu toggle (for future implementation)
-const mobileMenuBtn = document.createElement('button');
-mobileMenuBtn.className = 'mobile-menu-btn';
-mobileMenuBtn.innerHTML = '☰';
-mobileMenuBtn.style.cssText = `
-    display: none;
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 8px;
-`;
+// Mobile menu functionality
+const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+const mobileMenu = document.querySelector('.mobile-menu');
+const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+const mobileMenuClose = document.querySelector('.mobile-menu-close');
+const mobileNavLinks = document.querySelectorAll('.mobile-nav-menu a');
 
-// Add to navbar on mobile
-if (window.innerWidth <= 768) {
-    document.querySelector('.nav-actions').prepend(mobileMenuBtn);
-    mobileMenuBtn.style.display = 'block';
+function openMobileMenu() {
+    mobileMenu.classList.add('active');
+    mobileMenuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
+
+function closeMobileMenu() {
+    mobileMenu.classList.remove('active');
+    mobileMenuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', openMobileMenu);
+}
+
+if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', closeMobileMenu);
+}
+
+if (mobileMenuOverlay) {
+    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+}
+
+// Close mobile menu when clicking on a link
+mobileNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        closeMobileMenu();
+    });
+});
+
+// Close mobile menu on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+        closeMobileMenu();
+    }
+});
+
+// Handle window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        if (window.innerWidth > 768 && mobileMenu.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    }, 250);
+});
 
 // Parallax effect for hero section
 window.addEventListener('scroll', () => {
@@ -246,6 +282,145 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// Touch gesture support for crypto navigation (swipe)
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
+function handleGesture() {
+    const swipeThreshold = 50;
+    const verticalThreshold = 30;
+    
+    // Calculate swipe distance
+    const horizontalDistance = touchEndX - touchStartX;
+    const verticalDistance = Math.abs(touchEndY - touchStartY);
+    
+    // Only trigger if horizontal swipe is longer than vertical (avoid conflict with scroll)
+    if (Math.abs(horizontalDistance) > swipeThreshold && verticalDistance < verticalThreshold) {
+        if (horizontalDistance > 0) {
+            // Swipe right - previous crypto
+            currentCryptoIndex = (currentCryptoIndex - 1 + cryptos.length) % cryptos.length;
+            showNotification(`◀ ${cryptos[currentCryptoIndex]}`);
+        } else {
+            // Swipe left - next crypto
+            currentCryptoIndex = (currentCryptoIndex + 1) % cryptos.length;
+            showNotification(`${cryptos[currentCryptoIndex]} ▶`);
+        }
+    }
+}
+
+// Add touch event listeners to feature images
+document.querySelectorAll('.feature-image').forEach(element => {
+    element.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    element.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleGesture();
+    }, { passive: true });
+});
+
+// Lazy loading for images and animations
+const observerOptionsLazy = {
+    root: null,
+    rootMargin: '50px',
+    threshold: 0.01
+};
+
+const lazyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('lazy-loaded');
+            // Trigger animation
+            if (entry.target.classList.contains('feature-image')) {
+                entry.target.style.opacity = '0';
+                entry.target.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    entry.target.style.transition = 'all 0.6s ease-out';
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, 100);
+            }
+            lazyObserver.unobserve(entry.target);
+        }
+    });
+}, observerOptionsLazy);
+
+// Observe feature images for lazy loading
+document.querySelectorAll('.feature-image, .testimonial-card').forEach(el => {
+    lazyObserver.observe(el);
+});
+
+// Performance optimization - reduce animations on low-end devices
+const isLowEndDevice = () => {
+    return navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+};
+
+if (isLowEndDevice()) {
+    document.body.classList.add('reduce-motion');
+    // Add CSS to reduce animations
+    const reduceMotionStyle = document.createElement('style');
+    reduceMotionStyle.textContent = `
+        .reduce-motion * {
+            animation-duration: 0.01s !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01s !important;
+        }
+    `;
+    document.head.appendChild(reduceMotionStyle);
+}
+
+// Smooth scroll behavior with offset for fixed navbar
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const target = document.querySelector(targetId);
+        if (target) {
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            const targetPosition = target.offsetTop - navbarHeight - 20;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Optimize scroll performance with throttle
+let ticking = false;
+let lastScrollY = window.pageYOffset;
+
+function updateNavbarOnScroll() {
+    lastScrollY = window.pageYOffset;
+    
+    if (lastScrollY > 100) {
+        navbar.style.background = 'rgba(0, 0, 0, 0.95)';
+        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+    } else {
+        navbar.style.background = 'rgba(0, 0, 0, 0.8)';
+        navbar.style.boxShadow = 'none';
+    }
+    
+    ticking = false;
+}
+
+// Replace the existing scroll listener with optimized version
+window.removeEventListener('scroll', () => {}); // Remove old listener
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(updateNavbarOnScroll);
+        ticking = true;
+    }
+}, { passive: true });
+
 // Add loading animation
 window.addEventListener('load', () => {
     document.body.style.opacity = '0';
@@ -253,7 +428,30 @@ window.addEventListener('load', () => {
         document.body.style.transition = 'opacity 0.5s';
         document.body.style.opacity = '1';
     }, 100);
+    
+    // Preload critical assets
+    const preloadImages = document.querySelectorAll('img[data-preload]');
+    preloadImages.forEach(img => {
+        const source = img.getAttribute('data-preload');
+        img.src = source;
+    });
 });
+
+// Add viewport height fix for mobile browsers
+const setVH = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+};
+
+setVH();
+window.addEventListener('resize', setVH);
+
+// Detect if user prefers reduced motion
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.body.classList.add('reduce-motion');
+}
 
 console.log('🚀 INVESTHINK - Platform Trading Kripto dengan AI');
 console.log('Website loaded successfully!');
+console.log('📱 Responsive mode: Active');
+console.log('👆 Touch gestures: Enabled');
