@@ -54,12 +54,57 @@ themeBtn.addEventListener('click', () => {
     }
 });
 
-// Tab switching functionality for crypto table
+// Tab switching functionality for asset table
 const tabBtns = document.querySelectorAll('.tab-btn');
+const tableBody = document.getElementById('tableBody');
+
+const assetData = {
+    crypto: [
+        { code: 'BTC', price: '$67,234', change: '+2.45%', class: 'positive', volume: '$2.4B', avg: '67.2K' },
+        { code: 'ETH', price: '$3,567', change: '+3.12%', class: 'positive', volume: '$1.8B', avg: '3.5K' },
+        { code: 'BNB', price: '$421', change: '+1.89%', class: 'positive', volume: '$890M', avg: '418' }
+    ],
+    forex: [
+        { code: 'EUR/USD', price: '1.0892', change: '+0.15%', class: 'positive', volume: '$125B', avg: '1.0885' },
+        { code: 'GBP/USD', price: '1.2743', change: '-0.23%', class: 'negative', volume: '$98B', avg: '1.2765' },
+        { code: 'USD/JPY', price: '149.85', change: '+0.08%', class: 'positive', volume: '$87B', avg: '149.73' }
+    ],
+    commodities: [
+        { code: 'GOLD', price: '$2,045', change: '+0.65%', class: 'positive', volume: '$45B', avg: '2,032' },
+        { code: 'OIL', price: '$78.32', change: '-1.12%', class: 'negative', volume: '$32B', avg: '79.21' },
+        { code: 'SILVER', price: '$24.15', change: '+0.34%', class: 'positive', volume: '$12B', avg: '24.07' }
+    ],
+    indices: [
+        { code: 'S&P 500', price: '4,783', change: '+0.89%', class: 'positive', volume: '$156B', avg: '4,741' },
+        { code: 'NASDAQ', price: '15,123', change: '+1.24%', class: 'positive', volume: '$134B', avg: '14,938' },
+        { code: 'DOW JONES', price: '37,892', change: '+0.45%', class: 'positive', volume: '$98B', avg: '37,723' }
+    ],
+    stocks: [
+        { code: 'AAPL', price: '$195.89', change: '+2.15%', class: 'positive', volume: '$28B', avg: '191.78' },
+        { code: 'TSLA', price: '$242.84', change: '-1.87%', class: 'negative', volume: '$45B', avg: '247.45' },
+        { code: 'GOOGL', price: '$151.32', change: '+0.92%', class: 'positive', volume: '$22B', avg: '149.94' }
+    ]
+};
+
+function updateTable(assetType) {
+    const data = assetData[assetType];
+    tableBody.innerHTML = data.map(item => `
+        <tr data-asset="${assetType}">
+            <td>${item.code}</td>
+            <td>${item.price}</td>
+            <td class="${item.class}">${item.change}</td>
+            <td>${item.volume}</td>
+            <td>${item.avg}</td>
+        </tr>
+    `).join('');
+}
+
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         tabBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        const assetType = btn.getAttribute('data-asset');
+        updateTable(assetType);
     });
 });
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INVESTHINK - Platform Trading Kripto dengan AI</title>
+    <title>INVESTHINK - Platform Trading Multi-Asset dengan AI</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-enhanced.css">
     <link rel="stylesheet" href="mobile-menu-fix.css">
@@ -55,8 +55,8 @@
     <section class="hero">
         <div class="container">
             <div class="badge">AI Investment Manager</div>
-            <h1 class="hero-title">AI Turbocharges Your Crypto</h1>
-            <p class="hero-subtitle">Watch your spare change grow guided by AI, no finance degree and certification needed.</p>
+            <h1 class="hero-title">AI Turbocharges Your Trading</h1>
+            <p class="hero-subtitle">Master Crypto, Forex, Commodities, Indices & Stocks with AI-powered insights. No finance degree needed.</p>
             <button class="btn-primary btn-large">Get Started</button>
             
             <div class="hero-image">
@@ -90,9 +90,11 @@
                 <div class="partner-logo">Binance</div>
                 <div class="partner-logo">Coinbase</div>
                 <div class="partner-logo">Kraken</div>
-                <div class="partner-logo">Bitfinex</div>
-                <div class="partner-logo">Huobi</div>
-                <div class="partner-logo">OKX</div>
+                <div class="partner-logo">MetaTrader</div>
+                <div class="partner-logo">Interactive Brokers</div>
+                <div class="partner-logo">TD Ameritrade</div>
+                <div class="partner-logo">OANDA</div>
+                <div class="partner-logo">Forex.com</div>
             </div>
         </div>
     </section>
@@ -115,47 +117,47 @@
                         </svg>
                         <span>Screener</span>
                     </div>
-                    <h3 class="feature-title">Find Your Desired Crypto</h3>
-                    <p class="feature-description">Use the screener to search for cryptocurrencies based on your preferences from various indicators and thousands of available coins</p>
+                    <h3 class="feature-title">Find Your Desired Assets</h3>
+                    <p class="feature-description">Use the screener to search for Crypto, Forex, Commodities, Indices & Stocks based on your preferences from various indicators and thousands of available instruments</p>
                     <button class="btn-primary">Try Now</button>
                 </div>
                 <div class="feature-image">
                     <div class="crypto-table">
                         <div class="table-tabs">
-                            <button class="tab-btn active">Top BDM Acc</button>
-                            <button class="tab-btn">Top Gainer</button>
-                            <button class="tab-btn">Top Loser</button>
-                            <button class="tab-btn">Top Foreign Buy</button>
-                            <button class="tab-btn">Top Foreign Sell</button>
-                            <button class="tab-btn">Top Volume</button>
+                            <button class="tab-btn active" data-asset="crypto">Crypto</button>
+                            <button class="tab-btn" data-asset="forex">Forex</button>
+                            <button class="tab-btn" data-asset="commodities">Commodities</button>
+                            <button class="tab-btn" data-asset="indices">Indices</button>
+                            <button class="tab-btn" data-asset="stocks">Stocks</button>
                         </div>
                         <div class="table-content">
-                            <table>
+                            <table id="assetTable">
                                 <thead>
                                     <tr>
                                         <th>CODE</th>
                                         <th>Price</th>
-                                        <th>Net Buying/Selling</th>
-                                        <th>Value</th>
+                                        <th>Change</th>
+                                        <th>Volume</th>
                                         <th>Avg</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
+                                <tbody id="tableBody">
+                                    <!-- Crypto data (default) -->
+                                    <tr data-asset="crypto">
                                         <td>BTC</td>
                                         <td>$67,234</td>
                                         <td class="positive">+2.45%</td>
                                         <td>$2.4B</td>
                                         <td>67.2K</td>
                                     </tr>
-                                    <tr>
+                                    <tr data-asset="crypto">
                                         <td>ETH</td>
                                         <td>$3,567</td>
                                         <td class="positive">+3.12%</td>
                                         <td>$1.8B</td>
                                         <td>3.5K</td>
                                     </tr>
-                                    <tr>
+                                    <tr data-asset="crypto">
                                         <td>BNB</td>
                                         <td>$421</td>
                                         <td class="positive">+1.89%</td>
@@ -180,7 +182,7 @@
                         <span>AI Analysis</span>
                     </div>
                     <h3 class="feature-title">Get AI Assistance</h3>
-                    <p class="feature-description">Use AI analysis to analyze crypto based on the specific parts you need</p>
+                    <p class="feature-description">Use AI analysis to analyze Crypto, Forex, Commodities, Indices & Stocks based on the specific parts you need</p>
                     <button class="btn-primary">Try Now</button>
                 </div>
                 <div class="feature-image">
@@ -214,7 +216,7 @@
                         <span>AI Assistant</span>
                     </div>
                     <h3 class="feature-title">Got Specific Questions?</h3>
-                    <p class="feature-description">Use the AI assistant to answer specific questions about crypto. Anything, including screening and technical analysis. We provide a quota for Data Mode but still in a generous amount</p>
+                    <p class="feature-description">Use the AI assistant to answer specific questions about any asset class. Crypto, Forex, Commodities, Indices & Stocks. Including screening and technical analysis. We provide a quota for Data Mode but still in a generous amount</p>
                     <button class="btn-primary">Try Now</button>
                 </div>
                 <div class="feature-image">
@@ -310,7 +312,7 @@
                         <span>Hotkey</span>
                     </div>
                     <h3 class="feature-title">Hotkey</h3>
-                    <p class="feature-description">Tired of switching pages? Use hotkeys to analyze faster and more easily. Change crypto just by pressing Ctrl + Arrow Right, Meta + Arrow Right, or swipe on Mobile</p>
+                    <p class="feature-description">Tired of switching pages? Use hotkeys to analyze faster and more easily. Change assets just by pressing Ctrl + Arrow Right, Meta + Arrow Right, or swipe on Mobile</p>
                     <button class="btn-primary">Try Now</button>
                 </div>
                 <div class="feature-image">
@@ -338,8 +340,8 @@
                         </svg>
                         <span>Watchlist</span>
                     </div>
-                    <h3 class="feature-title">Track Your Favorite Crypto</h3>
-                    <p class="feature-description">Use the watchlist to keep track of your favorite crypto. Make notes based on your analysis and monitor their performance</p>
+                    <h3 class="feature-title">Track Your Favorite Assets</h3>
+                    <p class="feature-description">Use the watchlist to keep track of your favorite Crypto, Forex, Commodities, Indices & Stocks. Make notes based on your analysis and monitor their performance</p>
                     <button class="btn-primary">Try Now</button>
                 </div>
                 <div class="feature-image">
@@ -361,7 +363,7 @@
                         <span>Update</span>
                     </div>
                     <h3 class="feature-title">Too Busy and No Time to Analyze?</h3>
-                    <p class="feature-description">We'll help you analyze crypto automatically and regularly every day based on your watchlist. All results will be sent automatically to WhatsApp or Telegram</p>
+                    <p class="feature-description">We'll help you analyze all your assets automatically and regularly every day based on your watchlist. Crypto, Forex, Commodities, Indices & Stocks. All results will be sent automatically to WhatsApp or Telegram</p>
                     <button class="btn-primary">Try Now</button>
                 </div>
                 <div class="feature-image">
@@ -505,7 +507,7 @@
                         </svg>
                         <span>INVESTHINK</span>
                     </div>
-                    <p class="footer-desc">Platform trading kripto dengan teknologi AI terdepan untuk membantu Anda membuat keputusan investasi yang lebih cerdas.</p>
+                    <p class="footer-desc">Platform trading multi-asset dengan teknologi AI terdepan untuk membantu Anda membuat keputusan investasi yang lebih cerdas. Crypto, Forex, Commodities, Indices & Stocks.</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-column">
